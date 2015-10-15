@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source ~/.bash/functions
+
+local self_dir=$(script_path $BASH_SOURCE[0])
+source $self_dir/utils
+
+function __openstack_prompt {
+    if [[ -n $OS_AUTH_URL ]]; then
+        OS_PRIVATESTACK=$(echo $OS_PRIVATESTACK | grep -q "example.org" && echo "privatestack")
+        OS_STAGING=$(echo $OS_AUTH_URL | grep -q "cloud.staging.iweb.com" && echo "staging")
+        OS_PRODUCTION=$(echo $OS_AUTH_URL | grep -q "cloud.iweb.com" && echo "production")
+        printf "($OS_STAGING$OS_PRODUCTION/$OS_REGION_NAME/$OS_TENANT_NAME) "
+    fi
+}
